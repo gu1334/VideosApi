@@ -3,6 +3,7 @@ package com.semana.demo.controller;
 import com.semana.demo.categorias.Categoria;
 import com.semana.demo.categorias.CategoriaRepository;
 import com.semana.demo.categorias.DadosCategoria;
+import com.semana.demo.exceptions.RecursoNaoEncontradoException;
 import com.semana.demo.videos.Video;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +50,11 @@ public class CategoriaController {
     @GetMapping("/{id}")
     public ResponseEntity<Categoria> getById(@PathVariable Long id) {
         Optional<Categoria> categoria = categoriaRepository.findById(id);
-        return categoria.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        if (categoria.isPresent()) {
+            return ResponseEntity.ok(categoria.get());
+        }else {
+            throw new RecursoNaoEncontradoException("Categoria com ID " + id + " não foi encontrado.");
+        }
     }
 
     // Buscar categorias por título (opcional)
@@ -62,7 +66,7 @@ public class CategoriaController {
                     categoriaRepository.findAll();
             return ResponseEntity.ok(categorias);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            throw new RecursoNaoEncontradoException("Titulo " + titulo + " não foi encontrado.");
         }
     }
 
@@ -74,7 +78,7 @@ public class CategoriaController {
             categoriaRepository.deleteById(categoriaId);
             return ResponseEntity.ok(categoria.get());
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            throw new RecursoNaoEncontradoException("categoria com ID " + categoriaId + " não foi encontrado.");
         }
     }
 
@@ -91,7 +95,7 @@ public class CategoriaController {
             Categoria categoriaAtualizado = categoriaRepository.save(categoriaSalvo);
             return ResponseEntity.ok(categoriaAtualizado);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            throw new RecursoNaoEncontradoException("Categoria com ID " + categoriaId + " não foi encontrado.");
         }
     }
 }

@@ -5,12 +5,11 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 
-
 import com.semana.demo.categorias.Categoria;
 import com.semana.demo.videos.Video;
 
-import org.junit.Test;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
@@ -18,11 +17,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class VideoTest {
+    private Validator validator;
+
+    @BeforeEach
+    public void setUp() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
+    }
+
     @Test
-    public void test() {
-
-
-
+    public void testVideoAttributes() {
         Video video = new Video();
         Categoria categoria = new Categoria();
 
@@ -30,38 +34,28 @@ public class VideoTest {
         video.setDescricao("serie sobre comedia");
         video.setUrl("https://www.url.com.br/");
 
-
-        categoria.setId(1l);
+        categoria.setId(1L);
         video.setCategoria(categoria);
 
         assertEquals(categoria, video.getCategoria());
         assertEquals("Um maluco no pedaço", video.getTitulo());
         assertEquals("serie sobre comedia", video.getDescricao());
         assertEquals("https://www.url.com.br/", video.getUrl());
-
-
     }
-    @Test
-    public void testValidations() {
-        // Criar Validator
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
 
-        // Instância inválida de Video
+    @Test
+    public void testVideoValidation() {
         Video video = new Video();
         Categoria categoria = new Categoria();
-        categoria.setId(1l);
-
+        categoria.setId(1L);
 
         video.setCategoria(categoria);
         video.setTitulo(null);
         video.setDescricao(null);
         video.setUrl(null);
 
-        // Validar o objeto
         Set<ConstraintViolation<Video>> violations = validator.validate(video);
-
-        // Verificar se há violações
-        assertFalse(violations.isEmpty());  // Deve haver violações, já que o título é nulo
+        assertFalse(violations.isEmpty());
+        assertEquals(3, violations.size()); // Verifique o número de violações
     }
 }

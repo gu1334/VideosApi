@@ -2,6 +2,7 @@ package com.semana.demo.controller;
 
 import com.semana.demo.categorias.Categoria;
 import com.semana.demo.categorias.CategoriaRepository;
+import com.semana.demo.exceptions.RecursoNaoEncontradoException;
 import com.semana.demo.videos.DadosVideo;
 import com.semana.demo.videos.Video;
 import com.semana.demo.videos.VideoRepository;
@@ -50,10 +51,14 @@ public class VideosController {
 
     // Buscar vídeo por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Video> getById(@PathVariable Long id) {
+    public ResponseEntity<Video> buscarPorId(@PathVariable Long id) {
         Optional<Video> video = repository.findById(id);
-        return video.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+
+        if (video.isPresent()) {
+            return ResponseEntity.ok(video.get());
+        } else {
+            throw new RecursoNaoEncontradoException("Vídeo com ID " + id + " não foi encontrado.");
+        }
     }
 
     // Buscar vídeos por categoria
@@ -64,7 +69,7 @@ public class VideosController {
             List<Video> videos = repository.findByCategoria(categoria.get());
             return ResponseEntity.ok(videos);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            throw new RecursoNaoEncontradoException("Video com categoria de ID " + categoriaId + " não foi encontrado.");
         }
     }
 
@@ -76,7 +81,7 @@ public class VideosController {
                 repository.findAll();
 
         if (videos.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            throw new RecursoNaoEncontradoException("Titulo " + titulo + " não encontrado.");
         }
 
         return ResponseEntity.ok(videos);
@@ -90,7 +95,7 @@ public class VideosController {
             repository.deleteById(id);
             return ResponseEntity.ok(video.get());
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            throw new RecursoNaoEncontradoException("Vídeo com ID " + id + " não foi encontrado.");
         }
     }
 
@@ -115,7 +120,7 @@ public class VideosController {
             Video videoAtualizado = repository.save(videoExistente);
             return ResponseEntity.ok(videoAtualizado);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            throw new RecursoNaoEncontradoException("Vídeo com ID " + id + " não foi encontrado.");
         }
     }
 }
