@@ -1,0 +1,121 @@
+package com.semana.demo.controller;
+
+import com.semana.demo.categorias.Categoria;
+import com.semana.demo.categorias.CategoriaRepository;
+import com.semana.demo.videos.DadosVideo;
+import com.semana.demo.videos.Video;
+import com.semana.demo.videos.VideoRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/videos")
+public class VideosController {
+
+    @Autowired
+    private VideoRepository repository;
+
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+
+    // Cadastrar um novo vídeo
+    @PostMapping
+    public ResponseEntity<Video> cadastrar(@RequestBody @Valid DadosVideo dados) {
+        if (dados.categoriaId() == null) {
+            throw new IllegalArgumentException("O ID da categoria não pode ser nulo.");
+        }
+
+        Categoria categoria = categoriaRepository.findById(dados.categoriaId())
+                .orElseGet(() -> categoriaRepository.findById(1L)
+                        .orElseThrow(() -> new EntityNotFoundException("Categoria padrão não encontrada com ID 1")));
+
+        Video video = new Video(dados, categoria);
+        repository.save(video);
+        return ResponseEntity.status(HttpStatus.CREATED).body(video);
+    }
+
+    // Listar todos os vídeos
+    @GetMapping
+    public ResponseEntity<List<Video>> listar() {
+        List<Video> videos = repository.findAll();
+        return ResponseEntity.ok(videos);
+    }
+
+    // Buscar vídeo por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Video> getById(@PathVariable Long id) {
+        Optional<Video> video = repository.findById(id);
+        return video.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    // Buscar vídeos por categoria
+    @GetMapping("/categoria/{categoriaId}")
+    public ResponseEntity<List<Video>> mostrarVideosPorCategoria(@PathVariable Long categoriaId) {
+        Optional<Categoria> categoria = categoriaRepository.findById(categoriaId);
+        if (categoria.isPresent()) {
+            List<Video> videos = repository.findByCategoria(categoria.get());
+            return ResponseEntity.ok(videos);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    // Buscar vídeos por título
+    @GetMapping("/search")
+    public ResponseEntity<List<Video>> listarVideos(@RequestParam(required = false) String titulo) {
+        List<Video> videos = (titulo != null && !titulo.isEmpty()) ?
+                repository.findByTituloContainingIgnoreCase(titulo) :
+                repository.findAll();
+
+        if (videos.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return ResponseEntity.ok(videos);
+    }
+
+    // Remover vídeo por ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Video> remover(@PathVariable Long id) {
+        Optional<Video> video = repository.findById(id);
+        if (video.isPresent()) {
+            repository.deleteById(id);
+            return ResponseEntity.ok(video.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    // Atualizar um vídeo existente
+    @PutMapping("/{id}")
+    public ResponseEntity<Video> atualizar(@PathVariable Long id, @RequestBody @Valid DadosVideo dados) {
+        Optional<Video> videoOptional = repository.findById(id);
+        if (videoOptional.isPresent()) {
+            Video videoExistente = videoOptional.get();
+
+            if (dados.categoriaId(  ) == null) {
+                throw new IllegalArgumentException("O ID da categoria não pode ser nulo.");
+            }
+
+            Categoria categoria = categoriaRepository.findById(dados.categoriaId())
+                    .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
+
+            videoExistente.setTitulo(dados.titulo());
+            videoExistente.setDescricao(dados.descricao());
+            videoExistente.setCategoria(categoria);
+
+            Video videoAtualizado = repository.save(videoExistente);
+            return ResponseEntity.ok(videoAtualizado);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+}
