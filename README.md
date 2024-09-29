@@ -1,62 +1,63 @@
-# Projeto de Gerenciamento de Vídeos
+# Video Management Project
 
-Este projeto é uma aplicação Java baseada em Spring Boot que permite o gerenciamento de vídeos e categorias. O sistema oferece funcionalidades para cadastrar, listar, buscar, modificar e remover vídeos e categorias.
+This project is a Java application based on Spring Boot that allows for the management of videos and categories. The system offers functionalities to register, list, search, modify, and remove videos and categories.
 
-## Funcionalidades
+## Features
 
-- **Cadastro de Vídeos**: Permite adicionar novos vídeos à aplicação, associando-os a uma categoria.
-- **Listagem de Vídeos**: Lista todos os vídeos cadastrados, com opções de filtragem por título e categoria.
-- **Busca por ID**: Possui a funcionalidade de buscar vídeos ou categorias pelo ID.
-- **Atualização de Vídeos**: Permite modificar as informações de vídeos existentes.
-- **Remoção de Vídeos e Categorias**: Possui funcionalidade para remover vídeos e categorias da base de dados.
+- **Video Registration**: Allows adding new videos to the application, associating them with a category.
+- **Video Listing**: Lists all registered videos with options to filter by title and category.
+- **Search by ID**: Provides functionality to search for videos or categories by ID.
+- **Video Update**: Allows modifying the information of existing videos.
+- **Removal of Videos and Categories**: Includes functionality to remove videos and categories from the database.
 
-## Tecnologias Utilizadas
+## Technologies Used
 
-- **Java**: Linguagem de programação utilizada.
-- **Spring Boot**: Framework para construção de aplicações web.
-- **JPA (Java Persistence API)**: Para interagir com a base de dados.
-- **JUnit**: Para testes unitários.
-- **Mockito**: Para simular objetos em testes unitários.
-- **Jakarta Validation**: Para validação de dados.
+- **Java**: Programming language used.
+- **Spring Boot**: Framework for building web applications.
+- **JPA (Java Persistence API)**: For interacting with the database.
+- **JUnit**: For unit testing.
+- **Mockito**: To mock objects in unit tests.
+- **Jakarta Validation**: For data validation.
 
-## Estrutura do Projeto
+## Project Structure
 
-- `src/main/java/com/semana/demo`: Contém o código-fonte da aplicação.
-  - `categorias`: Pacote responsável pelas funcionalidades relacionadas a categorias.
-  - `videos`: Pacote responsável pelas funcionalidades relacionadas a vídeos.
-  - `controller`: Pacote que contém os controladores que gerenciam as requisições HTTP.
-  - `exceptions`: Pacote para tratar exceções personalizadas.
-- `src/test/java/com/semana/demo`: Contém os testes unitários da aplicação.
+- `src/main/java/com/semana/demo`: Contains the application source code.
+  - `categories`: Package responsible for functionalities related to categories.
+  - `videos`: Package responsible for functionalities related to videos.
+  - `controller`: Package that contains controllers managing HTTP requests.
+  - `exceptions`: Package for handling custom exceptions.
+- `src/test/java/com/semana/demo`: Contains unit tests for the application.
 
-## Como Executar o Projeto
+## How to Run the Project
 
-1. Clone este repositório em sua máquina local:
+1. Clone this repository to your local machine:
    ```bash
    git clone https://github.com/github.com/gu1334/VideosApi.git
    cd VideosApi
-   
-2. Abra o projeto em sua IDE de preferência (como IntelliJ ou Eclipse).
 
-3. Certifique-se de que você tenha o JDK 17 ou superior instalado.
+2. Open the project in your preferred IDE (such as IntelliJ or Eclipse).
 
-4. Execute a aplicação usando o seguinte comando Maven:
+3. Ensure you have JDK 17 or higher installed.
+
+4. Run the application using the following Maven command:
 
   ```bash
   mvn spring-boot:run
   ```
-5. Acesse a aplicação no navegador em http://localhost:8080.
+5. Access the application in your browser at http://localhost:8080.
 
-##
-Testes
+##Tests
 
-Os testes unitários podem ser executados utilizando o Maven. Para isso, utilize o seguinte comando:
+Unit tests can be executed using Maven. To do this, use the following command:
+
   ```bash
   mvn test
   ```
 
-##Contribuição
+##Contribution
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
+Contributions are welcome! Feel free to open issues or pull requests.
+
 
 
 
