@@ -34,12 +34,12 @@ Este projeto é uma aplicação Java baseada em Spring Boot que permite o gerenc
    ```bash
    git clone https://github.com/seu_usuario/nome_do_repositorio.git
    cd nome_do_repositorio
-  ´´´
+   
 2. Abra o projeto em sua IDE de preferência (como IntelliJ ou Eclipse).
 
 3. Certifique-se de que você tenha o JDK 17 ou superior instalado.
 
-4 . Execute a aplicação usando o seguinte comando Maven:
+4. Execute a aplicação usando o seguinte comando Maven:
 
   ```bash
   mvn spring-boot:run
