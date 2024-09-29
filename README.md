@@ -32,8 +32,8 @@ Este projeto é uma aplicação Java baseada em Spring Boot que permite o gerenc
 
 1. Clone este repositório em sua máquina local:
    ```bash
-   git clone https://github.com/seu_usuario/nome_do_repositorio.git
-   cd nome_do_repositorio
+   git clone https://github.com/github.com/gu1334/VideosApi.git
+   cd VideosApi
    
 2. Abra o projeto em sua IDE de preferência (como IntelliJ ou Eclipse).
 
