@@ -5,7 +5,7 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 
-import com.semana.demo.categorias.Categoria;
+import com.semana.demo.category.Categoria;
 import com.semana.demo.videos.Video;
 
 import org.junit.jupiter.api.BeforeEach;

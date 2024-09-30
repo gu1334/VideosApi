@@ -1,6 +1,6 @@
 package com.semana.demo.videos;
 
-import com.semana.demo.categorias.Categoria;
+import com.semana.demo.category.Categoria;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

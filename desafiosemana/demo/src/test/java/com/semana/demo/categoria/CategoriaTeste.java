@@ -4,8 +4,8 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
-import com.semana.demo.categorias.Categoria;
-import com.semana.demo.categorias.DadosCategoria;
+import com.semana.demo.category.Categoria;
+import com.semana.demo.category.DadosCategoria;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

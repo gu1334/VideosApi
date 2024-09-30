@@ -1,17 +1,20 @@
 package com.semana.demo.controller;
 
-import com.semana.demo.categorias.Categoria;
-import com.semana.demo.categorias.CategoriaRepository;
+import com.semana.demo.category.Categoria;
+import com.semana.demo.category.CategoriaRepository;
 import com.semana.demo.exceptions.RecursoNaoEncontradoException;
 import com.semana.demo.videos.DadosVideo;
 import com.semana.demo.videos.Video;
 import com.semana.demo.videos.VideoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Optional;
@@ -86,6 +89,18 @@ public class VideosController {
 
         return ResponseEntity.ok(videos);
     }
+
+    @GetMapping("/page")
+    public ResponseEntity<?> paginas(@PageableDefault(size = 5) Pageable pageable) {
+        try {
+            Page<Video> videos = repository.findAll(pageable);
+            return ResponseEntity.ok(videos);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro: " + e.getMessage());
+        }
+    }
+
+
 
     // Remover vídeo por ID
     @DeleteMapping("/{id}")

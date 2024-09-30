@@ -1,8 +1,8 @@
 package com.semana.demo.categoria;
 
-import com.semana.demo.categorias.Categoria;
-import com.semana.demo.categorias.CategoriaRepository;
-import com.semana.demo.categorias.DadosCategoria;
+import com.semana.demo.category.Categoria;
+import com.semana.demo.category.CategoriaRepository;
+import com.semana.demo.category.DadosCategoria;
 import com.semana.demo.controller.CategoriaController;
 import com.semana.demo.exceptions.RecursoNaoEncontradoException;
 import org.junit.jupiter.api.BeforeEach;
